@@ -1,0 +1,107 @@
+-- 1. Customers cuyo CustomerID empieza con 'A'
+SELECT * FROM Customers
+WHERE CustomerID LIKE 'A%';
+
+-- 2. Customers cuyo CustomerID termina con 'N' (faltaba cerrar la comilla)
+SELECT * FROM Customers
+WHERE CustomerID LIKE '%N';
+
+-- 3. Customers cuyo CustomerID contiene un '0' en cualquier parte
+SELECT * FROM Customers
+WHERE CustomerID LIKE '%0%';
+
+-- 4. Customers cuyo CustomerID tiene una 'o' en la segunda posición
+-- '_' representa un solo carácter, por eso '_o_' significa cualquier letra, luego 'o', luego cualquier letra
+SELECT * FROM Customers
+WHERE CustomerID LIKE '_o_';
+
+-- 5. Customers cuyo CustomerID empieza con cualquiera de las letras A, B o C
+-- En SQL Server y la mayoría de motores, para rangos o grupos se usan corchetes [] no llaves {}
+SELECT * FROM Customers
+WHERE CustomerID LIKE '[ABC]%';
+
+-- 6. Customers cuyo CustomerID empieza con una letra entre Ä y Y
+-- De nuevo, usar corchetes [] para rangos, y cuidado con el rango si la colación soporta esas letras
+SELECT * FROM Customers
+WHERE CustomerID LIKE '[Ä-Y]%';
+
+--EJERCIOS
+/*
+1. Mostrar todos los "Customers" que tengan una dirección de "Av".
+
+2. Mostrar todos los "Customers que no pertenezcan al país "Brazil"
+
+3. Mostrar todos los "Customers" que no tengan una region "NULL" y que el fax no sea "NULL"
+*/
+
+ --Mostrar todos los Customers que tengan una dirección que contenga "Av"
+SELECT * FROM Customers
+WHERE Address LIKE '%Av%';
+
+-- 2. Mostrar todos los Customers que no pertenezcan al país "Brazil"
+SELECT * FROM Customers
+WHERE Country <> 'Brazil';
+
+-- 3. Mostrar todos los Customers que no tengan la región NULL y cuyo fax no sea NULL
+SELECT * FROM Customers
+WHERE Region IS NOT NULL
+  AND Fax IS NOT NULL;
+
+ SELECT * FROM Employees
+WHERE TitleOfCourtesy IN ('Ms.', 'Mr.', 'Mrs.');
+
+SELECT * FROM Employees
+WHERE City IN ('Seattle', 'Tacoma', 'Redmond');
+
+-- -- 1. Contar cuántos Customers hay por cada ciudad
+SELECT City, COUNT(*)
+FROM Customers
+GROUP BY City;
+
+-- 2. Contar cuántos Customers hay por cada ContactTitle
+SELECT ContactTitle, COUNT(*)
+FROM Customers
+GROUP BY ContactTitle;
+
+-- 3. Contar total de Customers (sin agrupar)
+SELECT COUNT(*) FROM Customers;
+
+-- 4. Sumar el UnitPrice de todos los productos
+SELECT SUM(UnitPrice) FROM Products;
+
+-- 5. Promedio del UnitPrice de todos los productos
+SELECT AVG(UnitPrice) FROM Products;
+
+SELECT ShipCountry, COUNT(*) AS TotalOrders
+FROM Orders
+GROUP BY ShipCountry;
+
+SELECT ShipCity, COUNT(*) AS TotalOrders
+FROM Orders
+GROUP BY ShipCity
+ORDER BY TotalOrders DESC;
+
+SELECT * FROM Products
+/*
+4. Contar todas las "Orders" agrupando por el "ShipCountry"
+
+5. Contar todas las "Orders" agrupando por el "ShipCity"
+
+6. Sumar todos los "UnitPrice" de los "Products" agrupando por "CategoryId
+*/
+SELECT ShipCountry, COUNT(*)  TotalOrders
+FROM Orders
+GROUP BY ShipCountry
+ORDER BY TotalOrders DESC;
+
+
+SELECT ShipCity, COUNT(*)  TotalOrders
+FROM Orders
+GROUP BY ShipCity
+ORDER BY TotalOrders DESC;
+
+
+SELECT CategoryID, SUM(UnitPrice)  TotalPrice
+FROM Products
+GROUP BY CategoryID
+ORDER BY TotalPrice DESC;
