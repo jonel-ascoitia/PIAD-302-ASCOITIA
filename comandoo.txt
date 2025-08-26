@@ -1,0 +1,41 @@
+    1  composer global require laravel/installer
+    2  composer global require laravel/installer
+    3  laravel new example55
+    4  composer global require laravel/installer
+    5  laravel new et
+    6  laravel --version
+    7  powd
+    8  git clone
+    9  git init
+   10  ls -la
+   11  cd PIAD-302-ASCOITIA/
+   12  pwd
+   13  git clone
+   14  git clone https://github.com/jonel-ascoitia/PIAD-302-ASCOITIA.git
+   15  ls -la
+   16  cd  piad
+   17  cd PIAD-302-ASCOITIA/
+   18  pwd
+   19  ls -la
+   20  echo "# PIAD-302-ASCOITIA" >> README.md
+   21   ls -la
+   22  cat README.md
+   23  echo "jonel smith" >> README.md
+   24  git add.
+   25  cat README..md
+   26  git add.
+   27  cat README.md
+   28  git add .
+   29  git status
+   30  git commit -m "first commit"
+   31  git config --global user.email "1619942senati.pe"
+   32  git confit --global user.name ASCOITIA"
+   33  git confit --global user.name "ASCOITIA"
+   34  git config --global user.email "1619942senati.pe"
+   35  git confit --global user.name "ASCOITIA"
+   36  git config --global user.name "ASCOITIA"
+   37  history
+   38  git commit -m "first commit"
+   39  git status
+   40  git push -u origin main
+   41  history
