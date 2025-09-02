@@ -1,0 +1,41 @@
+-- Sumar
+IF OBJECT_ID('SumarNumeros', 'P') IS NOT NULL
+    DROP PROCEDURE SumarNumeros;
+GO
+CREATE PROCEDURE SumarNumeros (@numero1 INT, @numero2 INT) AS
+    PRINT CAST(@numero1 AS VARCHAR) + ' + ' + CAST(@numero2 AS VARCHAR) + ' = ' + CAST(@numero1 + @numero2 AS VARCHAR);
+GO
+
+-- Restar
+IF OBJECT_ID('RestarNumeros', 'P') IS NOT NULL
+    DROP PROCEDURE RestarNumeros;
+GO
+CREATE PROCEDURE RestarNumeros (@numero1 INT, @numero2 INT) AS
+    PRINT CAST(@numero1 AS VARCHAR) + ' - ' + CAST(@numero2 AS VARCHAR) + ' = ' + CAST(@numero1 - @numero2 AS VARCHAR);
+GO
+
+-- Multiplicar
+IF OBJECT_ID('MultiplicarNumeros', 'P') IS NOT NULL
+    DROP PROCEDURE MultiplicarNumeros;
+GO
+CREATE PROCEDURE MultiplicarNumeros (@numero1 INT, @numero2 INT) AS
+    PRINT CAST(@numero1 AS VARCHAR) + ' * ' + CAST(@numero2 AS VARCHAR) + ' = ' + CAST(@numero1 * @numero2 AS VARCHAR);
+GO
+
+-- Dividir
+IF OBJECT_ID('DividirNumeros', 'P') IS NOT NULL
+    DROP PROCEDURE DividirNumeros;
+GO
+CREATE PROCEDURE DividirNumeros (@numero1 INT, @numero2 INT) AS
+BEGIN
+    IF @numero2 = 0
+        PRINT 'Error: División por cero no permitida.';
+    ELSE
+        PRINT CAST(@numero1 AS VARCHAR) + ' / ' + CAST(@numero2 AS VARCHAR) + ' = ' + CAST(CAST(@numero1 AS FLOAT) / @numero2 AS VARCHAR);
+END;
+GO
+
+EXEC SumarNumeros 3, 3;
+EXEC RestarNumeros 10, 5;
+EXEC MultiplicarNumeros 4, 6;
+EXEC DividirNumeros 10, 2;
