@@ -1,0 +1,175 @@
+-- Eliminar tabla Userlogs si existe (opcional)
+IF OBJECT_ID('Userlogs', 'U') IS NOT NULL
+    DROP TABLE Userlogs;
+GO
+
+-- Crear tabla Userlogs para registrar acciones
+CREATE TABLE Userlogs (
+    id INT PRIMARY KEY IDENTITY(1, 1),
+    [action] VARCHAR(100),
+    [user] VARCHAR(100),
+    [date] DATETIME
+);
+GO
+
+-- Mostrar registros (vacía por ahora)
+SELECT * FROM Userlogs;
+GO
+
+-- Eliminar triggers si existen para evitar conflictos
+IF OBJECT_ID('trigger_delete_Productos', 'TR') IS NOT NULL
+    DROP TRIGGER trigger_delete_Productos;
+GO
+
+IF OBJECT_ID('trigger_update_Productos', 'TR') IS NOT NULL
+    DROP TRIGGER trigger_update_Productos;
+GO
+
+-- Crear trigger para registrar eliminaciones en Productos
+CREATE TRIGGER trigger_delete_Productos ON Productos
+AFTER DELETE
+AS
+BEGIN
+    INSERT INTO Userlogs ([action], [user], [date])
+    VALUES ('DELETE', SUSER_NAME(), SYSDATETIME());
+END;
+GO
+
+-- Crear trigger para registrar actualizaciones en Productos
+CREATE TRIGGER trigger_update_Productos ON Productos
+AFTER UPDATE
+AS
+BEGIN
+    INSERT INTO Userlogs ([action], [user], [date])
+    VALUES ('UPDATE', SUSER_NAME(), SYSDATETIME());
+END;
+GO
+
+
+-- Opcional: si quieres más detalle en el trigger de update (nombre antes y después)
+
+-- Primero crea otra tabla para logs con detalle
+
+IF OBJECT_ID('Userlogss', 'U') IS NOT NULL
+    DROP TABLE Userlogss;
+GO
+
+CREATE TABLE Userlogss (
+    id INT PRIMARY KEY IDENTITY(1, 1),
+    [action] VARCHAR(100),
+    [user] VARCHAR(100),
+    [date] DATETIME,
+    [detalle] VARCHAR(200)
+);
+GO
+
+-- Crear trigger que registre actualizaciones con detalle
+IF OBJECT_ID('trigger_update_Productos_detalle', 'TR') IS NOT NULL
+    DROP TRIGGER trigger_update_Productos_detalle;
+GO
+
+CREATE TRIGGER trigger_update_Productos_detalle ON Productos
+AFTER UPDATE
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    INSERT INTO Userlogss ([action], [user], [date], [detalle])
+    SELECT
+        'UPDATE',
+        SUSER_NAME(),
+        SYSDATETIME(),
+        'ID Producto: ' + CAST(i.IdProducto AS NVARCHAR(50)) +
+        ', Nombre anterior: ' + ISNULL(d.NombreProducto, 'NULL') +
+        ', Nombre nuevo: ' + ISNULL(i.NombreProducto, 'NULL')
+    FROM inserted i
+    INNER JOIN deleted d ON i.IdProducto = d.IdProducto;
+END;
+GO
+
+-- Ejemplos para probar los triggers
+
+-- DELETE
+DELETE FROM Productos WHERE IdProducto = 5;
+GO
+
+-- UPDATE
+UPDATE Productos SET PrecioUnidad = 20 WHERE IdProducto = 5;
+GO
+
+-- Consultar logs simples
+SELECT * FROM Userlogs ORDER BY id DESC;
+GO
+
+-- Consultar logs con detalle
+SELECT * FROM Userlogss ORDER BY id DESC;
+GO
+--dos triggers (DELETE , UPDATE)
+
+-- 1. Eliminar tabla Userlogs si existe para crearla desde cero
+IF OBJECT_ID('Userlogs', 'U') IS NOT NULL
+    DROP TABLE Userlogs;
+GO
+
+-- 2. Crear tabla Userlogs para registrar acciones
+CREATE TABLE Userlogs (
+    id INT PRIMARY KEY IDENTITY(1, 1),
+    [action] VARCHAR(100),
+    [user] VARCHAR(100),
+    [date] DATETIME
+);
+GO
+
+-- 3. Eliminar triggers si existen para evitar conflictos
+IF OBJECT_ID('trigger_delete_Productos', 'TR') IS NOT NULL
+    DROP TRIGGER trigger_delete_Productos;
+GO
+
+IF OBJECT_ID('trigger_update_Productos', 'TR') IS NOT NULL
+    DROP TRIGGER trigger_update_Productos;
+GO
+
+-- 4. Crear trigger para registrar eliminaciones en Productos
+CREATE TRIGGER trigger_delete_Productos ON Productos
+AFTER DELETE
+AS
+BEGIN
+    INSERT INTO Userlogs ([action], [user], [date])
+    VALUES ('DELETE', SUSER_NAME(), SYSDATETIME());
+END;
+GO
+
+-- 5. Crear trigger para registrar actualizaciones en Productos
+CREATE TRIGGER trigger_update_Productos ON Productos
+AFTER UPDATE
+AS
+BEGIN
+    INSERT INTO Userlogs ([action], [user], [date])
+    VALUES ('UPDATE', SUSER_NAME(), SYSDATETIME());
+END;
+GO
+
+-- 6. Pruebas de los triggers
+
+-- Eliminar un producto con IdProducto = 1
+DELETE FROM Productos WHERE IdProducto = 1;
+GO
+
+-- Actualizar un producto con IdProducto = 1
+UPDATE Productos SET PrecioUnidad = 20 WHERE IdProducto = 1;
+GO
+
+-- 7. Mostrar registros en Userlogs ordenados por más recientes
+SELECT * FROM Userlogs ORDER BY id DESC;
+GO
+
+
+
+
+
+
+
+
+
+
+
