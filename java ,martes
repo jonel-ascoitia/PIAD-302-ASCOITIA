@@ -1,0 +1,58 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+package javaapplication7;
+
+import java.util.Scanner;
+
+/**
+ *
+ * @author Alumno-ETI
+ */
+public class ejercicio3 {
+   public static void main(String[] args) {
+        // 
+        for (int i = 1; i <= 10; i++) {
+            System.out.println(i);
+        }
+
+        // Imprimir números pares del 2 al 100 (saltando de 2 en 2)
+        System.out.println("Numeros pares del 1 al 100:");
+        for (int i = 2; i <= 100; i += 2) {
+            System.out.println(i);
+        }
+
+        // Imprimir múltiplos de 5 del 5 al 100 (saltando de 5 en 5)
+        System.out.println("Numeros multiplos de 5 del 1 al 100:");
+        for (int i = 5; i <= 100; i += 5) {
+            System.out.println(i);
+        }
+
+        Scanner sc = new Scanner(System.in);
+
+        // Imprimir números desde 1 hasta el número ingresado
+        System.out.print("Ingrese un numero: ");
+        int num = sc.nextInt();
+        System.out.println("Numeros menores o iguales a " + num + ":");
+        for (int i = 1; i <= num; i++) {
+            System.out.println(i);
+        }
+
+        // Imprimir tablas de multiplicar desde inicio hasta fin
+        System.out.print("Ingrese el numero inicial para la tabla: ");
+        int inicio = sc.nextInt();
+        System.out.print("Ingrese el numero final para la tabla: ");
+        int fin = sc.nextInt();
+
+        for (int n = inicio; n <= fin; n++) {
+            System.out.println("Tabla de multiplicar del " + n + ":");
+            for (int j = 1; j <= 12; j++) {
+                System.out.println(n + " * " + j + " = " + (n * j));
+            }
+            System.out.println();
+        }
+
+        sc.close();
+    }
+}
